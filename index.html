@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" id="favicon" href="https://www.colorhexa.com/7441a6.png">
+    <title>randomcolor</title>
+    <style>
+        label {
+            font-size: 60px;
+        }
 
+        p {
+            font-size: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #show-text {
+            color: #000;
+            transition: opacity 1s;
+        }
+
+        .container {
+            font-family: 'Consolas', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height:100vh
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="center-div">
+            <label id="cor" name="cor" onclick="copyLabelText()">0</label>
+        </div>
+        <div>
+            <p id="show-text" class="hidden">Copied to Clipboard!</p>
+        </div>
+    </div>
+    <script>
+        let randomHex = () => "#" + Math.floor(Math.random()*16777215).toString(16);
+        let letters = "0123456789ABCDEF";
+        let cor = '#';
+        for (var i = 0; i < 6; i++)
+        cor += letters[(Math.floor(Math.random() * 16))];
+
+        let favicon = document.getElementById("favicon");
+        let copy = document.getElementById("cor");
+        let text = document.querySelector("#show-text");
+        let urlcor = "https://www.colorhexa.com/" + cor.slice(1) + ".png";
+
+        function copyLabelText(){
+            let labelText = document.getElementById("cor").innerText;
+            navigator.clipboard.writeText(labelText)
+        };
+
+        copy.addEventListener("click", function() {
+            text.classList.remove("hidden");
+            setTimeout(function() {
+                text.style.opacity = 0;
+            }, 1000);
+            text.style.opacity = 100;
+        });
+
+        text.addEventListener("transitionend", function() {
+            text.classList.add("hidden");
+            text.style.opacity = 100;
+        });
+
+        document.body.style.background = cor;
+        document.querySelector("label").textContent = cor;
+        document.querySelector("title").textContent = cor;
+        favicon.setAttribute("href", urlcor);
+    </script>
+</body>
+</html>
